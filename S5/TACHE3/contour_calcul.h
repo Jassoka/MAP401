@@ -31,9 +31,10 @@ Liste_Points *initListePoints(void);
 /* Initialise un robot a la position x, y et orientation o */
 Robot initRobot(double x, double y, Orientation o);
 
-/* Renvoie la coordonnée entiere */
+/* Renvoie la coordonnée entiere des abscisses du robot*/
 int getX (Robot r);
 
+/* Renvoie la coordonnée entiere des ordonnees du robot*/
 int getY (Robot r);
 
 /* Ajoute une cellule de coordonnée (x,y) en queue de liste */
@@ -43,7 +44,7 @@ void enfilerPoint(Liste_Points *L, int x, int y);
 void memoriserPosition(Robot r, Liste_Points *L); 
 
 /* Avance le robot d'une case dans le sens de l'orientation */
-void avancer(Robot r);
+void avancer(Robot *r);
 
 /* Renvoie la valeur du pixel devant le robot à sa gauche */
 Pixel pixelGauche(Image I, Robot r);
@@ -52,7 +53,7 @@ Pixel pixelGauche(Image I, Robot r);
 Pixel pixelDroite(Image I, Robot r);
 
 /* Reoriente le robot afin d'avoir un pixel blanc devant a gauche et noir a droite */
-void nouvelleOrientation(Image I, Robot r);
+void nouvelleOrientation(Image I, Robot *r);
 
 /* Renvoie le contour exterieur d'une image */
 Liste_Points *contourExterieur(Image I);

@@ -1,0 +1,31 @@
+chat.pbm
+250 140
+879
+
+coq.pbm
+700 720
+5385
+
+elephant.pbm
+800 700
+5343
+
+gymnaste.pbm
+1056 1647
+8783
+
+labyrinthe.pbm
+221 201
+43999
+
+lettreZ.pbm
+600 1029
+9395
+
+map401.pbm
+830 300
+8071
+
+tete.pbm
+1252 1252
+8135

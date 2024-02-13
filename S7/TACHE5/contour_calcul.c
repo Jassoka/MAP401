@@ -2,32 +2,6 @@
 #include <math.h>
 #include "contour_calcul.h"
 
-/*
-Point premPoint(Image I)
-{
-    UINT L = largeur_image(I);
-    UINT H = hauteur_image(I);
-    Pixel curr;
-    Pixel nord;
-    Point p;
-    int x;
-    int y;
-    for (y = 1; y < (H + 1); y++)
-    {
-        for (x = 1; x < (L + 1); x++)
-        {
-            curr = get_pixel_image(I, x, y);
-            nord = get_pixel_image(I, x, y-1);
-            if (curr == NOIR && nord == BLANC) {
-                p = creerPoint((double)x-1, (double)y-1);
-                return p;
-            }
-        }
-    }
-    p = creerPoint(0.0, 0.0);
-    return p;
-}
-*/
 
 Liste_Points *initListePoints() {
     Liste_Points *L = malloc(sizeof(Liste_Points));
@@ -145,27 +119,6 @@ void nouvelleOrientation(Image I, Robot *r) {
     }
 
 }
-/*
-Liste_Points *contourExterieur(Image I) {
-    Liste_Points *L = initListePoints();
-    Point position_init = premPoint(I);
-    int x0 = (int)(position_init.x+1e-9);
-    int y0 = (int)(position_init.y+1e-9);
-    int x = x0;
-    int y = y0;
-    Robot r = initRobot(x0, y0, Est);
-    do {
-        memoriserPosition(r, L);
-        avancer(&r);
-        nouvelleOrientation(I, &r);
-        x = getX(r);
-        y = getY(r);
-    }
-    while (x != x0 || y != y0 || r.o != Est);
-    memoriserPosition(r,L);
-    return L;
-}
-*/
 
 void afficherOrientation(Robot r) {
     switch(r.o) {
@@ -206,19 +159,21 @@ Liste_Listes *initListeListes() {
     Liste_Listes *T = malloc(sizeof(Liste_Listes));
     T->taille = 0;
     T->tete = NULL;
+    T->queue = NULL;
     return T;
 }
 
-void empilerListe(Liste_Listes *T, Liste_Points *L) {
+void enfilerListe(Liste_Listes *T, Liste_Points *L) {
     Cell_Liste *cell = malloc(sizeof(Cell_Liste));
     cell->L = L;
+    cell->suiv = NULL;
     if (!T->tete) {
         T->tete = cell;
-        cell->suiv = NULL;
+        T->queue = cell;
     }
     else {
-        cell->suiv = T->tete;
-        T->tete = cell;
+        T->queue->suiv = cell;
+        T->queue = cell;
     }
     T->taille++;
 }

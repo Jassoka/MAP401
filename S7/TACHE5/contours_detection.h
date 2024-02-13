@@ -11,6 +11,7 @@ Liste_Points *calculContour(Image I, Image M);
 
 Liste_Listes *detectionContours(Image I);
 
-void ecritureContours(Image I, FILE *f, Liste_Listes *T);
+/* Renvoie le nombre de segments total */
+int ecritureContours(Image I, FILE *f, Liste_Listes *T);
 
 #endif

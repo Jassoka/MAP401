@@ -31,11 +31,10 @@ typedef struct cellule_liste_listes_chainee_points {
 
 typedef struct liste_listes_chainee_points {
     Cell_Liste *tete;
+    Cell_Liste *queue;
     int taille;
 } Liste_Listes;
 
-/* Renvoie le point de depart du contour exterieur d'une image I*/
-//Point premPoint(Image I);
 
 /* Initialise une liste de points vide */
 Liste_Points *initListePoints(void);
@@ -70,9 +69,6 @@ Pixel pixelDroite(Image I, Robot r);
 /* Reoriente le robot afin d'avoir un pixel blanc devant a gauche et noir a droite */
 void nouvelleOrientation(Image I, Robot *r);
 
-/* Renvoie le contour exterieur d'une image */
-//Liste_Points *contourExterieur(Image I);
-
 /* Affiche dans la sortie standard l'orientation du robot */
 void afficherOrientation(Robot r);
 
@@ -82,10 +78,8 @@ void afficherContour(Liste_Points *L);
 /* Ecrit un contour dans un fichier f ouvert en ecriture */
 void ecrireContour(Liste_Points *L, FILE *f);
 
-
-
 Liste_Listes *initListeListes(void);
 
-void empilerListe(Liste_Listes *T, Liste_Points *L);
+void enfilerListe(Liste_Listes *T, Liste_Points *L);
 
 #endif

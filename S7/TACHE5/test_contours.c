@@ -9,8 +9,10 @@ int main(int argc, char **argv)
     
     if (argc > 2) {
         FILE *f;
+        int n;
         f = fopen(argv[2], "w");
-        ecritureContours(I, f, T);
+        n = ecritureContours(I, f, T);
+        printf( "%s: %d contours, %d segments\n",argv[1], T->taille, n);
         fclose(f);
     }
 

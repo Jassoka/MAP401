@@ -54,7 +54,6 @@ Liste_Points *calculContour(Image I, Image M)
     Point position_init = pointCandidat(M);
     int x0 = (int)(position_init.x + 1e-9);
     int y0 = (int)(position_init.y + 1e-9);
-    printf("x0: %d, y0: %d\n", x0, y0);
     if (x0 == -1 || y0 == -1)
         return L; // Aucun point candidat
     int x = x0;
@@ -84,18 +83,21 @@ Liste_Listes *detectionContours(Image I) {
     Liste_Listes *T = initListeListes();
     Liste_Points *L = calculContour(I, M);
     while (L->taille != 0) {
-        empilerListe(T, L);
+        enfilerListe(T, L);
         L = calculContour(I, M);
     }
     return T;
 }
 
-void ecritureContours(Image I, FILE *f, Liste_Listes *T)
+int ecritureContours(Image I, FILE *f, Liste_Listes *T)
 {
     Cell_Liste *cell = T->tete;
+    int n = 0;
     fprintf(f, "%d\n", T->taille);
     while (cell) {
         ecrireContour(cell->L, f);
+        n += cell->L->taille - 1; // Nombre de segments
         cell = cell->suiv;
     }
+    return n;
 }

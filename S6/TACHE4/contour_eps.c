@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     FILE *f = fopen(nom_fichier, "w");
     free(nom_fichier);
     fprintf(f, "%%!PS−Adobe −3.0 EPSF−3.0\n");
-    fprintf(f,"%%BoundingBox : 0 0 %u %u\n", xmax, ymax);
+    fprintf(f,"%%%%BoundingBox: 0 0 %u %u\n", xmax, ymax);
 
     formatEPS(f, L, ymax);
     fprintf(f, "fill\n");

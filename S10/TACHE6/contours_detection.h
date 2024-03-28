@@ -17,9 +17,9 @@ Liste_Listes *detectionContours(Image I);
 int ecritureContours(Image I, FILE *f, Liste_Listes *T);
 
 /* Fonction auxiliaire qui ecrit une seule liste dans un fichier EPS */
-void ecrireEPS(FILE *f, Liste_Points *L, int ymax);
+void ecrireContourEPS(FILE *f, Liste_Points *L, int ymax);
 
 /* Renvoie le nombre de segments total, ecrit completement un fichier EPS (supposé vide) */
-int ecrireContoursEPS(FILE *f, Liste_Listes *T, int xmax, int ymax, bool fill);
+int ecritureEPS(FILE *f, Liste_Listes *T, int xmax, int ymax);
 
 #endif

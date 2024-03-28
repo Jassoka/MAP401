@@ -24,10 +24,6 @@ Orientation getO (Robot r) {
     return r.o;
 }
 
-void setO (Robot *r, Orientation o) {
-    r->o = o;
-}
-
 int getX (Robot r) {
     return (int)(r.pos.x + 1e-9);
 }
@@ -36,16 +32,9 @@ int getY (Robot r) {
     return (int)(r.pos.y + 1e-9);
 }
 
-double getXf (Robot r) {
-    return r.pos.x;
-}
-
-double getYf (Robot r) {
-    return r.pos.y;
-}
-
 void enfilerPoint(Liste_Points *L, double x, double y) {
-    Point p = creerPoint(x, y);
+    Point *p = malloc(sizeof(Point));
+    *p = creerPoint(x, y);
     Cell_Point *cell = malloc(sizeof(Cell_Point));
     cell->p = p;
     cell->suiv = NULL;
@@ -60,9 +49,12 @@ void enfilerPoint(Liste_Points *L, double x, double y) {
     L->taille++;
 }
 
+void memoriserPosition(Robot r, Liste_Points *L) {
+    enfilerPoint(L, r.pos.x, r.pos.y);
+}
+
 void avancer(Robot *r) {
-    Orientation o = getO(*r);
-    switch(o) {
+    switch(r->o) {
         case Nord:
             r->pos.y--;
         break;
@@ -78,17 +70,10 @@ void avancer(Robot *r) {
     }
 }
 
-void memoriserPosition(Robot r, Liste_Points *L) {
-    double x = getXf(r);
-    double y = getYf(r);
-    enfilerPoint(L, x, y);
-}
-
 Pixel pixelGauche(Image I, Robot r) {
     int x = getX(r);
     int y = getY(r);
-    Orientation o = getO(r);
-    switch(o) {
+    switch(r.o) {
         case Nord:
             return get_pixel_image(I, x, y);
         break;
@@ -107,8 +92,7 @@ Pixel pixelGauche(Image I, Robot r) {
 Pixel pixelDroite(Image I, Robot r) {
     int x = getX(r);
     int y = getY(r);
-    Orientation o = getO(r);
-    switch(o) {
+    switch(r.o) {
         case Nord:
             return get_pixel_image(I, x+1, y);
         break;
@@ -127,19 +111,17 @@ Pixel pixelDroite(Image I, Robot r) {
 void nouvelleOrientation(Image I, Robot *r) {
     Pixel G = pixelGauche(I, *r);
     Pixel D = pixelDroite(I, *r);
-    Orientation o = getO(*r);
     if (G == NOIR) {
-        setO(r, (o-1)%4);
+        r->o = (r->o-1)%4;
     }
     else if (D == BLANC) {
-        setO(r, (o+1)%4);
+        r->o = (r->o+1)%4;
     }
 
 }
 
 void afficherOrientation(Robot r) {
-    Orientation o = getO(r);
-    switch(o) {
+    switch(r.o) {
         case Nord:
             printf("Orientation: Nord\n");
         break;
@@ -158,7 +140,7 @@ void afficherOrientation(Robot r) {
 void afficherContour(Liste_Points *L) {
     Cell_Point *curr = L->tete;
     while (curr != NULL) {
-        printf("(%.0f,%.0f) ", xPoint(curr->p), yPoint(curr->p));
+        printf("(%.0f,%.0f) ", curr->p->x, curr->p->y);
         curr = curr->suiv;
     }
     printf("\n");
@@ -168,7 +150,7 @@ void ecrireContour(Liste_Points *L, FILE *f) {
     fprintf(f, "\n%d\n", L->taille);
     Cell_Point *curr = L->tete;
     while (curr != NULL) {
-        fprintf(f, " %.1f %.1f\n", xPoint(curr->p), yPoint(curr->p));
+        fprintf(f, " %.1f %.1f\n", curr->p->x, curr->p->y);
         curr = curr->suiv;
     }
 }

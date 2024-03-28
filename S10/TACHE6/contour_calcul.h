@@ -14,7 +14,7 @@ typedef struct robot_contour {
 } Robot;
 
 typedef struct cellule_liste_chainee_points {
-    Point p;
+    Point *p;
     Cell_Point *suiv;
 } Cell_Point;
 
@@ -42,17 +42,11 @@ Liste_Points *initListePoints(void);
 /* Initialise un robot a la position x, y et orientation o */
 Robot initRobot(double x, double y, Orientation o);
 
-/* Renvoie la coordonnée entiere des abscisses du robot */
+/* Renvoie la coordonnée entiere des abscisses du robot*/
 int getX (Robot r);
 
-/* Renvoie la coordonnée entiere des ordonnees du robot */
+/* Renvoie la coordonnée entiere des ordonnees du robot*/
 int getY (Robot r);
-
-/* Renvoie la coordonnée flottante des abscisses du robot */
-double getXf (Robot r);
-
-/* Renvoie la coordonnée flottante des ordonnees du robot */
-double getYf (Robot r);
 
 /* Renvoie l'orientation du robot */
 Orientation getO (Robot r);
@@ -60,11 +54,11 @@ Orientation getO (Robot r);
 /* Ajoute une cellule de coordonnée (x,y) en queue de liste */
 void enfilerPoint(Liste_Points *L, double x, double y);
 
+/* Memorise un point dans la liste chainee L */
+void memoriserPosition(Robot r, Liste_Points *L); 
+
 /* Avance le robot d'une case dans le sens de l'orientation */
 void avancer(Robot *r);
-
-/* Enfile la position du robot r en queue de liste L */
-void memoriserPosition(Robot r, Liste_Points *L); 
 
 /* Renvoie la valeur du pixel devant le robot à sa gauche */
 Pixel pixelGauche(Image I, Robot r);

@@ -60,20 +60,20 @@ Liste_Points *calculContour(Image I, Image M)
     int y = y0;
     Robot r = initRobot(x0, y0, Est);
 
-    Orientation o = getO(r);
+    Orientation o;
     do
     {
         memoriserPosition(r, L);
+        o = getO(r);
         if (o == Est)
         {
             set_pixel_image(M, x + 1, y + 1, BLANC); // Si le robot est orienté à l'est on supprime le pixel SE
         }
         avancer(&r);
-        nouvelleOrientation(I, &r);
         x = getX(r);
         y = getY(r);
-        o = getO(r);
-    } while (x != x0 || y != y0 || o != Est);
+        nouvelleOrientation(I, &r);
+    } while (x != x0 || y != y0 || r.o != Est);
     memoriserPosition(r, L);
     return L;
 }
@@ -102,30 +102,29 @@ int ecritureContours(Image I, FILE *f, Liste_Listes *T)
     return n;
 }
 
-void ecrireEPS(FILE *f, Liste_Points *L, int ymax) {
+void ecrireContourEPS(FILE *f, Liste_Points *L, int ymax) {
     Cell_Point *curr = L->tete;
-    fprintf(f, "%.0f %.0f moveto\n", xPoint(curr->p), ymax - yPoint(curr->p));
+    fprintf(f, "%.0f %.0f moveto\n", curr->p->x, ymax - curr->p->y);
     if (curr) curr = curr->suiv;
     while (curr != NULL) {
-        fprintf(f, "%.0f %.0f lineto\n", xPoint(curr->p), ymax - yPoint(curr->p));
+        fprintf(f, "%.0f %.0f lineto\n", curr->p->x, ymax - curr->p->y);
         curr = curr->suiv;
     }
     fprintf(f, "\n");
 }
 
-int ecrireContoursEPS(FILE *f, Liste_Listes *T, int xmax, int ymax, bool fill) {
+int ecritureEPS(FILE *f, Liste_Listes *T, int xmax, int ymax) {
     Cell_Liste *cell = T->tete;
     int n = 0;
 
     fprintf(f, "%%!PS−Adobe−3.0 EPSF−3.0\n");
     fprintf(f,"%%%%BoundingBox: 0 0 %u %u\n", xmax, ymax);
     while (cell) {
-        ecrireEPS(f, cell->L, ymax);
+        ecrireContourEPS(f, cell->L, ymax);
         n += cell->L->taille - 1; // Nombre de segments
         cell = cell->suiv;
     }
-    if (fill) fprintf(f, "fill\n");
-    else fprintf(f, "stroke\n");
+    fprintf(f, "fill\n");
     fprintf(f, "showpage\n");
 
     return n;

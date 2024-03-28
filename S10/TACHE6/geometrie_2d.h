@@ -30,10 +30,6 @@ double xVecteur(Vecteur u);
 
 double yVecteur(Vecteur u);
 
-Point pointA(Segment s);
-
-Point pointB(Segment s);
-
 /*Somme de deux vecteurs */
 Vecteur sommeVect(Vecteur u1, Vecteur u2);
 

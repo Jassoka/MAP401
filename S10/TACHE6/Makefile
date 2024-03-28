@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = eps_points eps_segments
+EXECUTABLES = test_distance contours_eps test_simplification
 
 
 #############################################################################
@@ -78,24 +78,18 @@ contour_calcul.o : contour_calcul.c contour_calcul.h image.h geometrie_2d.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-contours_detection.o : contours_detection.c contours_detection.h contour_calcul.h image.h geometrie_2d.h
+
+contours_simplification.o : contours_simplification.c contour_calcul.h image.h geometrie_2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module contours_detection"
+	@echo "Compilation du module contours_simplification"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-contours_segments.o : contours_segments.c contours_segments.h contour_calcul.h image.h geometrie_2d.h
+test_simplification.o: test_simplification.c contours_simplification.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module contours_segments"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
-eps_segments.o: eps_segments.c contours_segments.h contours_detection.h contour_calcul.h image.h geometrie_2d.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module eps_segments"
+	@echo "Compilation du module test_simplification"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
@@ -103,14 +97,21 @@ eps_segments.o: eps_segments.c contours_segments.h contours_detection.h contour_
 ########################################################
 # regles explicites de creation des executables
 
-eps_points : eps_points.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
+test_distance : test_distance.o geometrie_2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-eps_segments : eps_segments.o contours_segments.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
+contours_eps : contours_eps.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_simplification : test_simplification.o contours_simplification.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

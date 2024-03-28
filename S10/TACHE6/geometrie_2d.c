@@ -47,14 +47,6 @@ double yVecteur(Vecteur u)
     return u.y ;
 }
 
-Point pointA(Segment s) {
-    return s.a;
-}
-
-Point pointB(Segment s) {
-    return s.b;
-}
-
 Vecteur sommeVect(Vecteur u1, Vecteur u2)
 {
     double x1,y1,x2,y2;
@@ -100,7 +92,7 @@ double norme(Vecteur u)
 
 double produitScalaire(Vecteur u1, Vecteur u2)
 {
-    return xVecteur(u1)*xVecteur(u2) + yVecteur(u1)*yVecteur(u2); 
+    return u1.x*u2.x + u1.y*u2.y; 
 }
 
 double distance(Point a, Point b)
@@ -111,17 +103,15 @@ double distance(Point a, Point b)
 Vecteur multScalaire(Vecteur u, double lambda)
 {
     Vecteur v;
-    double x = xVecteur(u);
-    double y = yVecteur(u);
-    v = creerVecteur(x*lambda, y*lambda);
+    v = creerVecteur(u.x*lambda, u.y*lambda);
     return v;
 }
 
 Point projection(Point p, Segment s) {
     Point o = creerPoint(0.0, 0.0);
-    Vecteur AP = vectPoints(pointA(s), p);
-    Vecteur AB = vectPoints(pointA(s), pointB(s));
-    Vecteur OA = vectPoints(o, pointA(s));
+    Vecteur AP = vectPoints(s.a, p);
+    Vecteur AB = vectPoints(s.a, s.b);
+    Vecteur OA = vectPoints(o, s.a);
     double lambda;
     lambda = produitScalaire(AP, AB)/produitScalaire(AB, AB);
     Vecteur OQ = sommeVect(OA, multScalaire(AB, lambda));
@@ -129,18 +119,15 @@ Point projection(Point p, Segment s) {
 }
 
 double distancePointSegment(Point p, Segment s) {
-    Vecteur AP = vectPoints(pointA(s), p);
-    if (xPoint(pointA(s)) == xPoint(pointB(s)) && yPoint(pointA(s)) == yPoint(pointB(s))) {
-        return norme(AP);
-    }
     Point o = creerPoint(0.0, 0.0);
-    Vecteur AB = vectPoints(pointA(s), pointB(s));
-    Vecteur OA = vectPoints(o, pointA(s));
+    Vecteur AP = vectPoints(s.a, p);
+    Vecteur AB = vectPoints(s.a, s.b);
+    Vecteur OA = vectPoints(o, s.a);
     double lambda;
     lambda = produitScalaire(AP, AB)/produitScalaire(AB, AB);
     Point q = sommeVect(OA, multScalaire(AB, lambda));
     
-    if (lambda > 1) return distance(pointB(s), p);
-    if (lambda < 0) return distance(pointA(s), p);
+    if (lambda > 1) return distance(s.b, p);
+    if (lambda < 0) return distance(s.a, p);
     return distance(q,p);
 }

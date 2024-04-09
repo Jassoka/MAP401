@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "contour_calcul.h": "c",
+        "contours_simplification.h": "c",
+        "contours_detection.h": "c"
+    }
+}

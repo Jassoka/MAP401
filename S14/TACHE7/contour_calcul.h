@@ -16,6 +16,7 @@ typedef struct robot_contour {
 typedef struct cellule_liste_chainee_points {
     Point p;
     Cell_Point *suiv;
+    int indice;
 } Cell_Point;
 
 typedef struct liste_chainee_points {

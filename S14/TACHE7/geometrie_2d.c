@@ -199,3 +199,8 @@ double distancePointBezier2(Point p, Bezier2 c, double t_i) {
     Point C_ti = evalBezier2(c, t_i);
     return distance(p, C_ti);
 }
+
+double distancePointBezier3(Point p, Bezier3 c, double t_i) {
+    Point C_ti = evalBezier3(c, t_i);
+    return distance(p, C_ti);
+}

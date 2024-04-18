@@ -27,11 +27,6 @@ typedef struct liste_listes_chainee_bezier2 {
     int taille;
 } Liste_Listes_Bezier2;
 
-typedef struct bezier2_taille {
-    Bezier2 c;
-    int taille;
-} Bezier2_taille;
-
 /* Initialise une liste de courbes de Bezier de degré 2 vide */
 Liste_Bezier2 *initListeBezier2();
 
@@ -44,7 +39,7 @@ void enfilerBezier2(Liste_Bezier2 *L, Bezier2 c);
 Liste_Bezier2 *concatListeBezier2(Liste_Bezier2 *L1, Liste_Bezier2 *L2);
 
 /* Renvoie l'approximation du contour p1, p2 sous forme d'une courbe de Bezier de degré 2, ainsi que sa longueur n */
-Bezier2_taille approx_bezier2(Cell_Point *p1, Cell_Point *p2);
+Bezier2 approx_bezier2(Cell_Point *p1, Cell_Point *p2);
 
 Liste_Bezier2 *douglasBezier2(Cell_Point *p1, Cell_Point *p2, double d);
 

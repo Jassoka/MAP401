@@ -49,6 +49,7 @@ void enfilerPoint(Liste_Points *L, double x, double y) {
     Cell_Point *cell = malloc(sizeof(Cell_Point));
     cell->p = p;
     cell->suiv = NULL;
+    cell->indice = L->taille;
     if (!L->tete) {
         L->tete = cell;
         L->queue = cell;

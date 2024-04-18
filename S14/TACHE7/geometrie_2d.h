@@ -80,6 +80,8 @@ Point projection(Point p, Segment s);
 /* Renvoie la distance entre le point p et le segment S */
 double distancePointSegment(Point p, Segment s);
 
+/* Fonctions pour les modules courbes de Bezier */
+
 /* Evaluation de la courbe c de degré 2 au point 0 >= t >= 1 */
 Point evalBezier2(Bezier2 c, double t);
 
@@ -91,5 +93,8 @@ Bezier3 conversionBezier2(Bezier2 c2);
 
 /* Renvoie la distance entre le point p et la courbe de Bezier de degré 2 c au point t_i */
 double distancePointBezier2(Point p, Bezier2 c, double t_i);
+
+/* Renvoie la distance entre le point p et la courbe de Bezier de degré 3 c au point t_i */
+double distancePointBezier3(Point p, Bezier3 c, double t_i);
 
 #endif /* GEOMETRIE_2D */

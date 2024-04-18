@@ -62,21 +62,19 @@ Liste_Bezier2 *concatListeBezier2(Liste_Bezier2 *L1, Liste_Bezier2 *L2) {
 }
 
 
-Bezier2_taille approx_bezier2(Cell_Point *p1, Cell_Point *p2) {
-    Bezier2_taille B;
-    Bezier2 c;
-    double n = 1;
-    c.C0 = p1->p;
-    c.C2 = p2->p;
-    if (p1->suiv == p2) { // Cas n = 1
-        c.C1 = multScalaire(sommeVect(p1->p, p2->p), 0.5) ; // C1 = (p1+p2)/2
+Bezier2 approx_bezier2(Cell_Point *p1, Cell_Point *p2) {
+    Bezier2 B;
+    double n = p2->indice - p1->indice;
+    B.C0 = p1->p;
+    B.C2 = p2->p;
+    if (n == 1) { // Cas n = 1
+        B.C1 = multScalaire(sommeVect(p1->p, p2->p), 0.5) ; // C1 = (p1+p2)/2
     }
     else {
         Point sum = creerPoint(0, 0);
         Point C1;
         Cell_Point *cur = p1->suiv;
         while (cur != p2) {
-            n++;
             sum = sommeVect(sum, cur->p); // Somme de P_(i+j1)
             cur = cur->suiv;
         }
@@ -84,19 +82,16 @@ Bezier2_taille approx_bezier2(Cell_Point *p1, Cell_Point *p2) {
         double beta = (1-2*n)/(2*(n+1));
         C1 = multScalaire(sum, alpha); // C1 = alpha*somme
         C1 = sommeVect(C1, multScalaire(sommeVect(p1->p, p2->p), beta)); // C1 += beta(p1+p2)
-        c.C1 = C1;
+        B.C1 = C1;
     }
-    B.c = c;
-    B.taille = (int)(n + 1e-9);
     return B;
 }
 
 Liste_Bezier2 *douglasBezier2(Cell_Point *p1, Cell_Point *p2, double d) {
     Liste_Bezier2 *L = NULL;
 
-    Bezier2_taille B = approx_bezier2(p1, p2);
-    Bezier2 c = B.c;
-    int n = B.taille;
+    Bezier2 B = approx_bezier2(p1, p2);
+    int n = p2->indice - p1->indice;
 
     double d_max = 0;
     double d_j;
@@ -105,7 +100,7 @@ Liste_Bezier2 *douglasBezier2(Cell_Point *p1, Cell_Point *p2, double d) {
     int i;
     for (i = 1; cur && cur != p2; i++)
     {
-        d_j = distancePointBezier2(cur->p, c, (double)i/(double)n);
+        d_j = distancePointBezier2(cur->p, B, (double)i/(double)n);
         if (d_max < d_j) {
             d_max = d_j;
             k = cur;
@@ -114,7 +109,7 @@ Liste_Bezier2 *douglasBezier2(Cell_Point *p1, Cell_Point *p2, double d) {
     }
     if (d_max-d <= 1e-9) {
         L = initListeBezier2();
-        enfilerBezier2(L, c);
+        enfilerBezier2(L, B);
     }
     else {
         Liste_Bezier2 *L1 = douglasBezier2(p1, k, d);

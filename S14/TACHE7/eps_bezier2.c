@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     Liste_Listes_Bezier2 *T_Bezier2 = simplificationBezier2(T_Points, d);
 
     n = ecrireContoursBezier2EPS(f, T_Bezier2, xmax, ymax, fill);
-    printf("%s: %d contours, %d courbes\n",argv[1], T_Bezier2->taille, n);
+    printf("%s: %d contour%s, %d courbe%s\n",argv[1], T_Bezier2->taille,(T_Bezier2->taille > 1)?"s":"", n, (n > 1)?"s":"");
 
     fclose(f);
 }

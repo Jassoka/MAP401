@@ -59,7 +59,7 @@ double getYf (Robot r);
 Orientation getO (Robot r);
 
 /* Ajoute une cellule de coordonnée (x,y) en queue de liste */
-void enfilerPoint(Liste_Points *L, double x, double y);
+void enfilerPoint(Liste_Points *L, Point p);
 
 /* Avance le robot d'une case dans le sens de l'orientation */
 void avancer(Robot *r);

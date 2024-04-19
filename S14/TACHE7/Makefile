@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = eps_bezier2 eps_bezier3 test_courbe
+EXECUTABLES = eps_bezier2 eps_bezier3 test_courbe2 test_courbe3
 
 
 #############################################################################
@@ -113,7 +113,14 @@ eps_bezier3.o: eps_bezier3.c contours_bezier3.h contours_detection.h contour_cal
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_courbe.o: test_courbe.c contours_bezier3.h contours_detection.h contour_calcul.h image.h geometrie_2d.h
+test_courbe2.o: test_courbe2.c contours_bezier2.h contours_detection.h contour_calcul.h image.h geometrie_2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_courbe"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_courbe3.o: test_courbe3.c contours_bezier3.h contours_bezier2.h contours_detection.h contour_calcul.h image.h geometrie_2d.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_courbe"
@@ -138,7 +145,14 @@ eps_bezier3 : eps_bezier3.o contours_bezier3.o contours_bezier2.o contours_detec
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_courbe: test_courbe.o contours_bezier3.o contours_bezier2.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
+test_courbe2: test_courbe2.o contours_bezier2.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_courbe3: test_courbe3.o contours_bezier3.o contours_bezier2.o contours_detection.o contour_calcul.o image.o geometrie_2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

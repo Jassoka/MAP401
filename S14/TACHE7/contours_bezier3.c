@@ -62,17 +62,16 @@ Liste_Bezier3 *concatListeBezier3(Liste_Bezier3 *L1, Liste_Bezier3 *L2) {
     return L;
 }
 
-double gamma_bez(int k, int n) {
+double gamma_bez(double k, double n) {
     return 6*k*k*k*k - 8*n*k*k*k + 6*k*k - 4*n*k + n*n*n*n - n*n;
 }
 
 Bezier3 approx_bezier3(Cell_Point *p1, Cell_Point *p2) {
     Bezier3 B;
     double n = p2->indice - p1->indice;
-    int n_int = (int)(n + 1e-9);
     B.C0 = p1->p;
     B.C3 = p2->p;
-    if (n == 1 || n == 2) {
+    if (n < 3) {
         Bezier2 B2 = approx_bezier2(p1, p2);
         B = conversionBezier2(B2);
     }
@@ -90,21 +89,16 @@ Bezier3 approx_bezier3(Cell_Point *p1, Cell_Point *p2) {
         Cell_Point *cur = p1->suiv;
         int i;
         for (i = 1; cur != p2; i++) {
-            sum1 = sommeVect(sum1, multScalaire(cur->p, gamma_bez(i, n_int))); // Somme de P_(i+j1)*gamma(i)
+            sum1 = sommeVect(sum1, multScalaire(cur->p, gamma_bez(i, n) * lambda)); // Somme de P_(i+j1)*gamma(i)
+            sum2 = sommeVect(sum2, multScalaire(cur->p, gamma_bez(n - i, n) * lambda)); // Somme de P_(i+j1)*gamma(n-i)
             cur = cur->suiv;
         }
-        cur = p1->suiv;
-        for (i = 1; cur != p2; i++) {
-            sum2 = sommeVect(sum2, multScalaire(cur->p, gamma_bez(n_int - i, n_int))); // Somme de P_(i+j1)*gamma(n-i)
-            cur = cur->suiv;
-        }
-
-        C1 = multScalaire(sum1, lambda); // C1 = lambda * somme
+        C1 = sum1; // C1 = somme
         C1 = sommeVect(C1, multScalaire(p1->p, alpha)); // C1 += alpha*p1
         C1 = sommeVect(C1, multScalaire(p2->p, beta)); // C1 += beta*p1
         B.C1 = C1;
 
-        C2 = multScalaire(sum2, lambda); // C2 = lambda * somme
+        C2 = sum2; // C2 = somme
         C2 = sommeVect(C2, multScalaire(p1->p, beta)); // C2 += beta(p1)
         C2 = sommeVect(C2, multScalaire(p2->p, alpha)); // C2 += alpha(p1)
         B.C2 = C2;
@@ -141,6 +135,7 @@ Liste_Bezier3 *douglasBezier3(Cell_Point *p1, Cell_Point *p2, double d) {
         Liste_Bezier3 *L2 = douglasBezier3(k, p2, d);
         L = concatListeBezier3(L1, L2);
     }
+    
     return L;
 }
 

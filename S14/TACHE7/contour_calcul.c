@@ -44,8 +44,7 @@ double getYf (Robot r) {
     return r.pos.y;
 }
 
-void enfilerPoint(Liste_Points *L, double x, double y) {
-    Point p = creerPoint(x, y);
+void enfilerPoint(Liste_Points *L, Point p) {
     Cell_Point *cell = malloc(sizeof(Cell_Point));
     cell->p = p;
     cell->suiv = NULL;
@@ -82,7 +81,8 @@ void avancer(Robot *r) {
 void memoriserPosition(Robot r, Liste_Points *L) {
     double x = getXf(r);
     double y = getYf(r);
-    enfilerPoint(L, x, y);
+    Point p = creerPoint(x, y);
+    enfilerPoint(L, p);
 }
 
 Pixel pixelGauche(Image I, Robot r) {

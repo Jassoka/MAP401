@@ -38,7 +38,7 @@ void enfilerBezier3(Liste_Bezier3 *L, Bezier3 c);
 /* Renvoie la concatenation de L1 et L2, la memoire de L1 et L2 est liberee */
 Liste_Bezier3 *concatListeBezier3(Liste_Bezier3 *L1, Liste_Bezier3 *L2);
 
-double gamma_bez(int k, int n);
+double gamma_bez(double k, double n);
 
 /* Renvoie l'approximation du contour p1, p2 sous forme d'une courbe de Bezier de degré 3, ainsi que sa longueur n */
 Bezier3 approx_bezier3(Cell_Point *p1, Cell_Point *p2);

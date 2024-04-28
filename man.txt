@@ -20,9 +20,10 @@ Syntaxe:
     ./eps_segments <fichier entrée.pbm> <distance_seuil> <fichier sortie.eps>
     ./test_distance
 
-Scripts:
-    ./test_segments.sh <distance_seuil>
+Scripts: 
+    ./test_segments.sh <distance_seuil> (s)
         ( Applique la simplification par segment a tous les fichiers dans le repertoire TACHE6_TEST, sortie dans le repertoire TACHE6_RES )
+        ( s : argument optionnel stroke, fill par defaut )
 
 ---------------------------------------------- TACHE 7 ----------------------------------------------
 
@@ -42,4 +43,4 @@ Scripts:
     ./CR2.sh 
         ( Applique la simplification par courbe de Bézier 2 a tous les fichiers dans le repertoire CR, sortie dans le repertoire CR2 )
     ./CR3.sh 
-        ( Applique la simplification par courbe de Bézier 2 a tous les fichiers dans le repertoire CR, sortie dans le repertoire CR3 )
+        ( Applique la simplification par courbe de Bézier 3 a tous les fichiers dans le repertoire CR, sortie dans le repertoire CR3 )

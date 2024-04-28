@@ -8,13 +8,13 @@ Image imageMasque(Image I);
 /* Renvoie un point candidat, avec l'image masque en argument*/
 Point pointCandidat(Image M);
 
-/* Renvoie un contour de l'image */
+/* Calcul un seul contour dans une image a partir d'une image I et son masque M */
 Liste_Points *calculContour(Image I, Image M);
 
-/* Renvoie tous les contours de l'image*/
+/* Renvoie la liste des contours d'une image I */
 Liste_Listes *detectionContours(Image I);
 
-/* Renvoie le nombre de segments total */
+/* Renvoie le nombre de segments total, ecrit un fichier contenant une liste de points */
 int ecritureContours(Image I, FILE *f, Liste_Listes *T);
 
 /* Fonction auxiliaire qui ecrit une seule liste dans un fichier EPS */

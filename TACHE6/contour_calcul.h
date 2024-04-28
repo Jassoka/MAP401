@@ -84,8 +84,10 @@ void afficherContour(Liste_Points *L);
 /* Ecrit un contour dans un fichier f ouvert en ecriture */
 void ecrireContour(Liste_Points *L, FILE *f);
 
+/* Initialise une liste de listes de points vide */
 Liste_Listes *initListeListes(void);
 
+/* Enfile une liste de points en queue de liste de listes de points */
 void enfilerListe(Liste_Listes *T, Liste_Points *L);
 
 #endif
